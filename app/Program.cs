@@ -1,38 +1,31 @@
 ﻿using System;
+using System.Collections.Generic;
 
 class Program
 {
-    static void Main()
+    static void Main(string[] args)
     {
-      int a = 1;
-      int b = 2;
+        var numeros = new List<int>{};
+        numeros.Add(10);
+        numeros.Add(20);
+        numeros.Add(30);
 
-      for (int i = 1; i < 11; i++)   
+        foreach (var item in numeros)
         {
-            if (i == 1 || i == 2)
-            {
-                Console.WriteLine($"Tabuada {a}x{i} = {i*a}"); 
-            }
-            
-            if (i == 10)
-            {
-                Console.WriteLine("---");
-                Console.WriteLine($"Tabuada {a}x{i} = {i*a}"); 
-            }
-        }            
-        Console.WriteLine("");
-        for (int y = 1; y < 3; y++) 
-        {
-            Console.WriteLine($"Tabuada {b}x{y} = {y*b}");    
+            Console.WriteLine(item);
         }
-        Console.WriteLine("---");
-        for (int z = 10; z != 0; z--) 
+
+        numeros[1] = 50;
+        int mudo = numeros.IndexOf(10);
+        numeros[mudo] = 5;
+        numeros.Remove(30);
+
+        foreach (var i in numeros)
         {
-            if (z == 10)
-            {
-                Console.WriteLine($"Tabuada {b}x{z} = {z*b}");
-            }
-                
+            Console.WriteLine(i);
         }
+
+        Dictionary<string, string> capitais = new Dictionary<string, string>();
+        
     }
 }
