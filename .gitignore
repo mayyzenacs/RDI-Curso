@@ -1,46 +1,22 @@
-# Build results
-[Dd]ebug/
-[Dd]ebugPublic/
-[Rr]elease/
-[Rr]eleases/
-x64/
-x86/
-[Ww][Ii][Nn]32/
-[Aa][Rr][Mm]/
-[Aa][Rr][Mm]64/
-bld/
+## Ignorar pastas de build (O MAIS IMPORTANTE)
 [Bb]in/
 [Oo]bj/
-[Ll]og/
-[Ll]ogs/
 
-# Visual Studio cache/options
+## Ignorar arquivos específicos do usuário (Visual Studio)
 .vs/
-
-# Visual Studio Code
-.vscode/
-*.code-workspace
-
-# User-specific files
-*.rsuser
-*.suo
 *.user
 *.userosscache
 *.sln.docstates
+*.sln
 
-# NuGet
-*.nupkg
-*.snupkg
+## Ignorar arquivos de pacotes (se não estiver usando Package Restore, mas hoje em dia é padrão ignorar)
 packages/
-.nuget/
 
-# ReSharper
-.idea/
-*.sln.iml
+## Ignorar arquivos temporários e logs
+*.log
+*.tmp
+*.suo
+*.cache
 
-# Test Results
-TestResults/
-
-# OS files
-.DS_Store
-Thumbs.db
+## Ignorar arquivos do VS Code (caso use)
+.vscode/
