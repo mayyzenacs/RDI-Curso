@@ -1,14 +1,14 @@
 using System.Data.Common;
 
-namespace classes;
+namespace biblioteca.classes;
 
 class Livro
 {
-    public int Id; 
-    public string Titulo;
-    public string Status;
-    DateTime dataEmprestimo = DateTime.Now;
-    public string Locatario;
+    public int Id { get; private set; }      
+    public string Titulo { get; private set; } 
+    public string Status { get; private set; } 
+    public DateTime? DataEmprestimo { get; private set; }    //? troca para nullnable permite que seja nulo
+    public string Locatario { get; private set; }
 
     public Livro(int id, string titulo)
     {
@@ -22,10 +22,11 @@ class Livro
     {
         if(Status.ToLower() == "disponivel")
         {
-            Status = "indisponível";
+            Status = "emprestado";
             Locatario = nomeLocatario;
             Console.WriteLine($"Livro {Titulo} Emprestado para {Locatario}");
-            Console.WriteLine("Devolva em 7 dias por favor");
+            DataEmprestimo = DateTime.Now;  
+            Console.WriteLine($"Devolva em 7 dias por favor, data do emprestimo {DataEmprestimo}");
             
         } else
         {
@@ -35,17 +36,18 @@ class Livro
 
     public void Devolver(string nomeLocatario)
     {
-        Status = "Disponivel";
-        Console.WriteLine($"Livro devolvido por {nomeLocatario}");
+        Status = "DISPONIVEL";
+        DataEmprestimo = null;
+        Console.WriteLine($"Livro devolvido por {nomeLocatario} na data e seu Status é {Status}");
     }
 
 }
 
 class Pessoa
 {
-    public int Id;
-    public string Nome;
-    List<Livro> LivrosAlugados = new List<Livro>();
+    public int Id { get; private set; }
+    public string Nome { get; private set; }
+    public List<Livro> LivrosAlugados { get; private set; } = new List<Livro>(); 
 
     public Pessoa(int id, string nome)
     {
@@ -54,7 +56,7 @@ class Pessoa
         LivrosAlugados = new List<Livro>();
     }
 
-    public void EmprestarLivro(Livro livro)
+    public void PegarLivro(Livro livro)
     {
         LivrosAlugados.Add(livro);
 
@@ -64,50 +66,54 @@ class Pessoa
     {
         LivrosAlugados.Remove(livro);
     }
-
-    public void ListarLivrosAlugados()
-    {
-        foreach(var l in LivrosAlugados)
-        {
-            
-            Console.WriteLine($"Livro {l.Titulo} Emprestado por {Nome} Durante 7 dias");
-
-        }
-    }
 }
 
 class Biblioteca
 {
-    List<Livro> Livros = new List<Livro>();
-    List<Pessoa> Pessoas = new List<Pessoa>();
+    public List<Livro> Livros { get; private set; } = new List<Livro>();
+    public List<Pessoa> Pessoas { get; private set; } = new List<Pessoa>();
 
     public void CadastrarLivro(Livro livro)
     {
-        var livro1 = new Livro(1, "Sociedade do cansaco");
-        var livro2 = new Livro(2, "Flow a psicologia da felicidade");
+        if (livro == null)
+        {
+            Console.WriteLine("erro não é possivel adicionar");
+            return;
+        }
         
-
         Livros.Add(livro);
-        Console.WriteLine($"Livro {livro.Titulo} cadastrado com sucesso");
     }
 
     public void CadastrarUsuario(Pessoa pessoa)
     {
         Pessoas.Add(pessoa);
+        
     }
 
     public void ListarLivros()
     {
         foreach(var l in Livros)
         {        
-           Console.WriteLine($"ID {l.Id} Livro {l.Titulo} status: {l.Status} Quem alugou {l.Locatario}");
+           Console.WriteLine($"|| ID: {l.Id} Titulo: {l.Titulo} Status: {l.Status}");
         }
     }
 
-    public void EmpestarLivro(Livro livro, Pessoa pessoa)
+    public Livro AcharLivroId(int id)
     {
+        foreach (var livro in Livros)
+        {
+            if (id == livro.Id)
+            {
+                return livro;
+            }
+        }
+        return null;
+    } 
+
+    public void EmprestarLivro(Livro livro, Pessoa pessoa)
+    {   
         livro.Emprestar(pessoa.Nome);
-        pessoa.EmprestarLivro(livro);
+        pessoa.PegarLivro(livro);
 
     }
 
